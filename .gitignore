@@ -1,0 +1,5 @@
+*node_modules*
+*.abi
+*.bin
+*package-lock.json
+*.env
