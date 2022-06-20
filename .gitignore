@@ -5,4 +5,6 @@
 *.env
 *artifacts*
 *cache*
+*solhint.json
+*solhintignore
 *coverage*
