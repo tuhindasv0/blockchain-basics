@@ -19,12 +19,22 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
 const RINKBY_RPC_URL = process.env.RINKBY_RPC_URL;
 const RINKBY_PRIVATE_KEY = process.env.RINKBY_PRIVATE_KEY;
 module.exports = {
-  solidity: "0.8.7",
+  solidity: {
+    compilers: [
+      {
+        version: "0.8.7",
+      },
+      {
+        version: "0.6.6",
+      },
+    ],
+  },
   networks: {
     rinkby: {
       url: RINKBY_RPC_URL,
       accounts: [RINKBY_PRIVATE_KEY],
       chainId: 4,
+      blockConfirmations: 6
     },
   },
   // gasReporter: {
