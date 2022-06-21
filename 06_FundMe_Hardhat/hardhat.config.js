@@ -1,5 +1,5 @@
 require("dotenv").config();
-
+require("hardhat-deploy");
 require("@nomiclabs/hardhat-etherscan");
 require("@nomiclabs/hardhat-waffle");
 require("hardhat-gas-reporter");
@@ -15,22 +15,28 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   }
 });
 
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
-
-/**
- * @type import('hardhat/config').HardhatUserConfig
- */
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY;
+const RINKBY_RPC_URL = process.env.RINKBY_RPC_URL;
+const RINKBY_PRIVATE_KEY = process.env.RINKBY_PRIVATE_KEY;
 module.exports = {
   solidity: "0.8.7",
   networks: {
-
+    rinkby: {
+      url: RINKBY_RPC_URL,
+      accounts: [RINKBY_PRIVATE_KEY],
+      chainId: 4,
+    },
   },
-  gasReporter: {
-    enabled: process.env.REPORT_GAS !== undefined,
-    currency: "USD",
-  },
+  // gasReporter: {
+  //   enabled: process.env.REPORT_GAS !== undefined,
+  //   currency: "USD",
+  // },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: ETHERSCAN_API_KEY,
+  },
+  namedAccounts: {
+    deployer: {
+      default: 0,
+    },
   },
 };
