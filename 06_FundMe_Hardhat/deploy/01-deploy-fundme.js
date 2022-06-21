@@ -7,12 +7,10 @@ const deployContract = async (hre) => {
   const chainId = network.config.chainId;
 
   const ethUsdPriceFeedAddress = networkConfig[chainId]["ethUsdPriceFeed"];
-  console.log("-------");
   const fundMe = await deploy("FundMe", {
     from: deployer,
     args: [ethUsdPriceFeedAddress],
     log: true,
   });
-  console.log("+++++++++++");
 };
 module.exports.default = deployContract;
