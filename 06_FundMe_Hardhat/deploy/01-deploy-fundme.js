@@ -1,4 +1,5 @@
 const { networkConfig, localDevelopmentNetwork } = require("../helper-hardhat-config");
+const { verify } = require("../utils/verify")
 
 const deployContract = async (hre) => {
   const { getNamedAccounts, deployments } = hre;
@@ -25,5 +26,11 @@ const deployContract = async (hre) => {
   });
   log(`FundMe deployed at ${fundMe.address}`)
   log("-------------------------------------")
+  if (
+    !localDevelopmentNetwork.includes(network.name) &&
+    process.env.ETHERSCAN_API_KEY
+  ) {
+    await verify(fundMe.address, [ethUsdPriceFeedAddress])
+  }
 };
 module.exports.default = deployContract;
