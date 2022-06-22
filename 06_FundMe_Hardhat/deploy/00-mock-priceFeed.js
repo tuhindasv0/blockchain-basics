@@ -1,7 +1,7 @@
 const { localDevelopmentNetwork } = require("../helper-hardhat-config");
 const DECIMAL = 8;
 const INITIAL_ANSWER = 200000000000
-const deployMockContract = async (hre) => {
+module.exports = async (hre) => {
     const { getNamedAccounts, deployments } = hre;
     const { deploy, log } = deployments;
     const { deployer } = await getNamedAccounts();
@@ -18,4 +18,4 @@ const deployMockContract = async (hre) => {
     }
 
 };
-module.exports.default = deployMockContract;
+module.exports.tags = ["all", "mocks"]

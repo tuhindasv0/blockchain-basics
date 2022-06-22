@@ -13,7 +13,7 @@ contract FundMe {
 
     address public owner;
 
-    AggregatorV3Interface priceFeed;
+    AggregatorV3Interface public priceFeed;
 
     constructor(address priceFeedAddress) {
         owner = msg.sender;

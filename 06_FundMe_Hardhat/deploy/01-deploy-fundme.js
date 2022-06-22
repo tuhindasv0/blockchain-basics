@@ -1,7 +1,7 @@
 const { networkConfig, localDevelopmentNetwork } = require("../helper-hardhat-config");
 const { verify } = require("../utils/verify")
 
-const deployContract = async (hre) => {
+module.exports = async (hre) => {
   const { getNamedAccounts, deployments } = hre;
   const { deploy, log, get } = deployments;
   const { deployer } = await getNamedAccounts();
@@ -33,4 +33,5 @@ const deployContract = async (hre) => {
     await verify(fundMe.address, [ethUsdPriceFeedAddress])
   }
 };
-module.exports.default = deployContract;
+
+module.exports.tags = ["all", "fundme"]
