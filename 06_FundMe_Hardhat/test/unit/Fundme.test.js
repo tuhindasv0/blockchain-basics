@@ -8,9 +8,7 @@ describe("FundMe", () => {
     let deployer;
     const sendValue = ethers.utils.parseEther("1")
     beforeEach(async () => {
-        // await deployments.fixture(["all"])
-        // fundmeContract = await ethers.getContract("FundMe", deployer)
-        // mockV3AggregatorContract = await ethers.getContract("MockV3Aggregator", deployer)
+
         deployer = (await getNamedAccounts()).deployer;
 
         await deployments.fixture(["all"])
@@ -25,29 +23,29 @@ describe("FundMe", () => {
 
     describe("constructor", () => {
         it("sets the aggregator addresses correctly", async () => {
-            const response = await fundmeContract.priceFeed()
+            const response = await fundmeContract.getPriceFeed()
             assert.equal(response, mockV3AggregatorContract.address)
         })
         it("sets the owner of the contract correctly", async () => {
-            const response = await fundmeContract.owner()
+            const response = await fundmeContract.getOwner()
             assert.equal(response, deployer)
         })
     })
 
     describe("fund", () => {
         it("Check the minimum send amount", async () => {
-            expect(fundmeContract.fund()).to.be.revertedWith("You need to send more Eth")
+            expect(fundmeContract.fund()).to.be.revertedWith("FundMe__Fund__NotEnoughUSD()")
         })
         it("Update amount send", async () => {
             await fundmeContract.fund({ value: sendValue });
-            const response = await fundmeContract.addressToAmountFunded(deployer)
+            const response = await fundmeContract.getAddressToAmountFunded(deployer)
             assert.equal(response.toString(), sendValue.toString())
 
 
         })
         it("Update the Funder", async () => {
             await fundmeContract.fund({ value: sendValue });
-            const response = await fundmeContract.funders(0);
+            const response = await fundmeContract.getFunder(0);
             assert.equal(response.toString(), deployer)
         })
     })
@@ -93,11 +91,11 @@ describe("FundMe", () => {
             assert.equal(contractEndBalance.toString(), 0);
             assert.equal(deployerInitialBalance.add(contractInitialBalance).toString(), deployerEndBalance.add(gasCost).toString());
 
-            await expect(fundmeContract.funders(0)).to.be.reverted
+            await expect(fundmeContract.getFunder(0)).to.be.reverted
 
             for (i = 1; i < 6; i++) {
                 assert.equal(
-                    await fundmeContract.addressToAmountFunded(
+                    await fundmeContract.getAddressToAmountFunded(
                         accounts[i].address
                     ),
                     0
@@ -112,7 +110,9 @@ describe("FundMe", () => {
                 accounts[1]
             )
 
-            await expect(fundMeConnectedContract.withdraw()).to.be.revertedWith("You Are Not the OWner")
+            await expect(fundMeConnectedContract.withdraw()).to.be.revertedWith("FundMe__NotOwner()")
+
+
 
 
 
