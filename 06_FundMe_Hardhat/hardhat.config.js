@@ -34,7 +34,7 @@ module.exports = {
       url: RINKBY_RPC_URL,
       accounts: [RINKBY_PRIVATE_KEY],
       chainId: 4,
-      blockConfirmations: 6
+      blockConfirmations: 6,
     },
   },
   // gasReporter: {
